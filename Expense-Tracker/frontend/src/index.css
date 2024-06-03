@@ -1,0 +1,25 @@
+body,
+html {
+    width: 100%;
+
+}
+button{
+    cursor:pointer;
+}
+
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+li{
+    list-style:none;
+}
+ul{
+    display:flex;
+    flex-direction:column ;
+    gap:0.5em;
+}
