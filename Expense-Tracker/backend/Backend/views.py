@@ -20,12 +20,18 @@ def gettotalexpenses(request):
     return Response({'total_expense': total_expense}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def transactionView(request):
+def get_current_amount(request):
+    total_income = Transaction.objects.filter(amount__gt=0).aggregate(total_income=Sum('amount'))['total_income'] or 0
+    total_expense = Transaction.objects.filter(amount__lt=0).aggregate(total_expense=Sum('amount'))['total_expense'] or 0
+    current_amount = total_income + total_expense
+    return Response({'current_amount': current_amount}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def transactionListView(request):
     transaction = Transaction.objects.all()
     serializer = TransationSerializer(transaction, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-# # @csrf_protect
 @api_view(['POST'])
 def transactioncreate(request):
     serializer = TransationSerializer(data=request.data)
@@ -34,12 +40,32 @@ def transactioncreate(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['DELETE'])        
-def transactiondelete(request,pk):
-    try:
-        transaction =Transaction.objects.get(id=pk)
-        transaction.delete()
-        return Response({"success": "transaction deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
-    except transaction.DoesNotExist:
-        return Response({"error": "transaction not found"}, status=status.HTTP_404_NOT_FOUND)
+@api_view(['GET','PATCH','DELETE'])        
+def transaction(request,pk):
     
+    if request.method == 'GET':
+        try:
+            transaction =Transaction.objects.get(id=pk)
+            serializer = TransationSerializer(transaction)
+            return Response(serializer.data, status=status.HTTP_302_FOUND)
+        except Transaction.DoesNotExist:
+            return Response({"error": "transaction not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    elif request.method == 'DELETE':
+        try:
+            transaction =Transaction.objects.get(id=pk)
+            transaction.delete()
+            return Response({"success": "transaction deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Transaction.DoesNotExist:
+            return Response({"error": "transaction not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    elif request.method == 'PATCH':
+        try:
+            transaction =Transaction.objects.get(id=pk)
+            serializer = TransationSerializer(transaction,data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Transaction.DoesNotExist:
+            return Response({"error": "transaction not found"}, status=status.HTTP_404_NOT_FOUND)
