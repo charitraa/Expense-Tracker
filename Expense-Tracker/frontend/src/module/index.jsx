@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import OverViewComponent from './OverViewComponent'
 import TransactionComponent from './TransactionComponent'
+import { useState } from 'react'
 
 const Container = styled.div`
   display: flex;
@@ -11,11 +12,17 @@ const Container = styled.div`
 `
 
 const HomeComponent = () => {
+  const [transactions, updateTransaction] = useState([])
+  const addTransation = payload => {
+    const transactionArray = [...transactions]
+    transactionArray.push(payload)
+    updateTransaction(transactionArray)
+  }
   return (
     <>
       <Container>
-        <OverViewComponent />
-        <TransactionComponent />
+        <OverViewComponent addTransation={addTransation} />
+        <TransactionComponent Transactions={transactions} />
       </Container>
     </>
   )

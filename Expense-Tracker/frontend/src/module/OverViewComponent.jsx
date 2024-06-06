@@ -57,12 +57,14 @@ const AddTransitionView = props => {
   const addTransation = () => {
     console.log(amount, desc, type)
     props.toggle()
+    props.addTransation({ amount: Number(amount), desc, type, id: Date.now() })
   }
   return (
     <AddTransationContainer>
       <input
         placeholder='Amount'
         name='amount'
+        type='number'
         value={amount}
         onChange={e => setAmount(e.target.value)}
       />
@@ -75,7 +77,8 @@ const AddTransitionView = props => {
       <RadioButton>
         <input
           type='radio'
-          name='type'
+          name='expense
+'
           value='expense'
           id='expense'
           checked={type === 'expense'}
@@ -84,7 +87,7 @@ const AddTransitionView = props => {
         <label htmlFor='expense'>Expense</label>
         <input
           type='radio'
-          name='type'
+          name='income'
           value='income'
           id='income'
           checked={type === 'income'}
@@ -96,8 +99,31 @@ const AddTransitionView = props => {
     </AddTransationContainer>
   )
 }
+const ExpenseConatiner = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin: 20px;
+`
+const ExpenseBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e6e8e9;
+  padding: 15px 20px;
+  border-raduis: 4px;
+  width: 135px;
+  font-size: !4px;
 
-const OverViewComponent = () => {
+  & span {
+    font-weight: bold;
+    font-size: 20px;
+    color: ${props => {
+      props.isIncome ? 'green' : 'red'
+    }};
+  }
+`
+
+const OverViewComponent = props => {
   const [isAddTxnVisible, toggleAddTxn] = useState(false)
   return (
     <>
@@ -109,7 +135,20 @@ const OverViewComponent = () => {
           </AddTransation>
         </BalanceBox>
         {/* condition for UI */}
-        {isAddTxnVisible && <AddTransitionView toggle={toggleAddTxn} />}
+        {isAddTxnVisible && (
+          <AddTransitionView
+            toggle={toggleAddTxn}
+            addTransation={props.addTransation}
+          />
+        )}
+        <ExpenseConatiner>
+          <ExpenseBox isIncome={false}>
+            Expense<span>$1000</span>
+          </ExpenseBox>
+          <ExpenseBox isIncome={true}>
+            Income<span>$10000</span>
+          </ExpenseBox>
+        </ExpenseConatiner>
       </Container>
     </>
   )
