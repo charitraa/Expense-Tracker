@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import styled from 'styled-components'
+import { useState } from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -7,7 +7,7 @@ const Container = styled.div`
   align-items: center;
   margin: 10px;
   width: 100%;
-`
+`;
 const BalanceBox = styled.div`
   display: flex;
   width: 100%;
@@ -16,7 +16,7 @@ const BalanceBox = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-`
+`;
 const AddTransation = styled.button`
   background: black;
   color: white;
@@ -25,7 +25,7 @@ const AddTransation = styled.button`
   cursor: pointer;
   font-weight: bold;
   font-size: 12px;
-`
+`;
 
 const AddTransationContainer = styled.div`
   display: flex;
@@ -42,77 +42,79 @@ const AddTransationContainer = styled.div`
     border-radius: 4px;
     border: 1px solid #e6e8e9;
   }
-`
+`;
 const RadioButton = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
   align-items: center;
-`
+`;
 
-const AddTransitionView = props => {
-  const [amount, setAmount] = useState()
-  const [desc, setDesc] = useState()
-  const [type, setType] = useState()
+const AddTransitionView = (props) => {
+  const [amount, setAmount] = useState();
+  const [desc, setDesc] = useState();
+  const [type, setType] = useState();
   const addTransation = () => {
-    console.log(amount, desc, type)
-    props.toggle()
-  }
+    console.log(amount, desc, type);
+    props.onAddTransaction();
+  };
   return (
     <AddTransationContainer>
       <input
-        placeholder='Amount'
-        name='amount'
+        placeholder="Amount"
+        name="amount"
         value={amount}
-        onChange={e => setAmount(e.target.value)}
+        onChange={(e) => setAmount(e.target.value)}
       />
       <input
-        placeholder='Description'
-        name='desc'
+        placeholder="Description"
+        name="desc"
         value={desc}
-        onChange={e => setDesc(e.target.value)}
+        onChange={(e) => setDesc(e.target.value)}
       />
       <RadioButton>
         <input
-          type='radio'
-          name='type'
-          value='expense'
-          id='expense'
-          checked={type === 'expense'}
-          onChange={e => setType(e.target.value)}
+          type="radio"
+          name="type"
+          value="expense"
+          id="expense"
+          checked={type === "expense"}
+          onChange={(e) => setType(e.target.value)}
         />
-        <label htmlFor='expense'>Expense</label>
+        <label htmlFor="expense">Expense</label>
         <input
-          type='radio'
-          name='type'
-          value='income'
-          id='income'
-          checked={type === 'income'}
-          onChange={e => setType(e.target.value)}
+          type="radio"
+          name="type"
+          value="income"
+          id="income"
+          checked={type === "income"}
+          onChange={(e) => setType(e.target.value)}
         />
-        <label htmlFor='income'>Income</label>
+        <label htmlFor="income">Income</label>
       </RadioButton>
       <AddTransation onClick={addTransation}>Add Transation</AddTransation>
     </AddTransationContainer>
-  )
-}
+  );
+};
 
 const OverViewComponent = () => {
-  const [isAddTxnVisible, toggleAddTxn] = useState(false)
+  const [isAddTxnVisible, toggleAddTxn] = useState(false);
   return (
     <>
       <Container>
         <BalanceBox>
           Balance: $1000
           <AddTransation onClick={() => toggleAddTxn(!isAddTxnVisible)}>
-            {isAddTxnVisible ? 'Cancel' : 'Add'}
+            {isAddTxnVisible ? "Cancel" : "Add"}
           </AddTransation>
         </BalanceBox>
         {/* condition for UI */}
-        {isAddTxnVisible && <AddTransitionView toggle={toggleAddTxn} />}
+        {isAddTxnVisible && (
+          <AddTransitionView onAddTransaction={() => toggleAddTxn(false)} />
+        )}
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default OverViewComponent
+export default OverViewComponent;
