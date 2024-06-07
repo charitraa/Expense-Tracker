@@ -11,19 +11,19 @@ from django.db.models import Sum
 
 @api_view(['GET'])
 def gettotalincome(request):
-    total_income = Transaction.objects.filter(amount__gt=0).aggregate(total_income=Sum('amount'))['total_income'] or 0
+    total_income = Transaction.objects.filter(type='income').aggregate(total_income=Sum('amount'))['total_income'] or 0
     return Response({'total_income': total_income}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def gettotalexpenses(request):
-    total_expense = Transaction.objects.filter(amount__lt=0).aggregate(total_expense=Sum('amount'))['total_expense'] or 0
+    total_expense = Transaction.objects.filter(type='expense').aggregate(total_expense=Sum('amount'))['total_expense'] or 0
     return Response({'total_expense': total_expense}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def get_current_amount(request):
-    total_income = Transaction.objects.filter(amount__gt=0).aggregate(total_income=Sum('amount'))['total_income'] or 0
-    total_expense = Transaction.objects.filter(amount__lt=0).aggregate(total_expense=Sum('amount'))['total_expense'] or 0
-    current_amount = total_income + total_expense
+    total_income = Transaction.objects.filter(type='income').aggregate(total_income=Sum('amount'))['total_income'] or 0
+    total_expense = Transaction.objects.filter(type='expense').aggregate(total_expense=Sum('amount'))['total_expense'] or 0
+    current_amount = total_income - total_expense
     return Response({'current_amount': current_amount}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])

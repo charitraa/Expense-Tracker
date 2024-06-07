@@ -110,16 +110,29 @@ const ExpenseBox = styled.div`
   flex-direction: column;
   border: 1px solid #e6e8e9;
   padding: 15px 20px;
-  border-raduis: 4px;
+  border-radius: 4px;
   width: 135px;
-  font-size: !4px;
+  font-size: 16px;
 
   & span {
+    color: red;
     font-weight: bold;
     font-size: 20px;
-    color: ${props => {
-      props.isIncome ? 'green' : 'red'
-    }};
+  }
+`
+const IncomeBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e6e8e9;
+  padding: 15px 20px;
+  border-radius: 4px;
+  width: 135px;
+  font-size: 16px;
+
+  & span {
+    color: #26c026;
+    font-weight: bold;
+    font-size: 20px;
   }
 `
 
@@ -145,9 +158,9 @@ const OverViewComponent = props => {
           <ExpenseBox>
             Expense<span>$1000</span>
           </ExpenseBox>
-          <ExpenseBox>
+          <IncomeBox>
             Income<span>$10000</span>
-          </ExpenseBox>
+          </IncomeBox>
         </ExpenseConatiner>
       </Container>
     </>

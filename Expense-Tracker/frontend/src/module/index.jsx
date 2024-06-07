@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import OverViewComponent from './OverViewComponent'
 import TransactionComponent from './TransactionComponent'
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -14,10 +14,31 @@ const Container = styled.div`
 const HomeComponent = () => {
   const [transactions, updateTransaction] = useState([])
   const addTransation = payload => {
-    const transactionArray = [...transactions]
-    transactionArray.push(payload)
-    updateTransaction(transactionArray)
+    // const transactionArray = [...transactions]
+    // transactionArray.push(payload)
+    // updateTransaction(transactionArray)
   }
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await axios.get(
+          'http://127.0.0.1:8000/transation-list/'
+        )
+        if (response.status !== 200) {
+          console.log('slight server error')
+        }
+        const data = response.data
+        updateTransaction(data)
+        console.log(data)
+      } catch (error) {
+        console.error('Error fetching transactions:', error)
+      }
+    }
+
+    fetchTransactions()
+  }, [])
+
   return (
     <>
       <Container>

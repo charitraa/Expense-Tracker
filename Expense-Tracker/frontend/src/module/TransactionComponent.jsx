@@ -13,11 +13,12 @@ const Container = styled.div`
     padding: 10px 12px;
     border-radius: 12px;
     border: 1px solid #e6e8e9;
-    background-: #e6e8e9;
+    background: #e6e8e9;
     outline: none;
     width: 100%;
   }
 `
+
 const Cell = styled.div`
   display: flex;
   flex-direction: row;
@@ -25,35 +26,35 @@ const Cell = styled.div`
   justify-content: space-between;
   padding: 10px 15px;
   font-size: 14px;
-  border-radius: 2px;
-  width: 100%;
+  width: 90%;
   font-weight: normal;
-  border:1px solid #e6e8e9
-  border-right: 4px solid
-    ${props => {
-      props.isExpense ? 'red' : 'green'
-    }};
-
+  border: 1px solid #e6e8e9;
+  border-right: 5px solid ${props => (props.$isExpense ? 'red' : 'green')};
+  border-radius: 10px;
 `
-const TransactionCell = () => {
+
+const TransactionCell = props => {
   return (
-    <Cell isExpense={props.playload?.type === 'expense'}>
-      <span>{props.playload.desc}</span>
-      <span>{props.playload.amount}</span>
+    <Cell $isExpense={props.payload?.type === 'expense'}>
+      <span>{props.payload?.name}</span>
+      <span>{props.payload?.amount}</span>
     </Cell>
   )
 }
 const TransactionComponent = props => {
+  console.log(props.Transactions)
   return (
     <>
       <Container>
         Transaction
         <input placeholder='search' type='search' />
-        {props.transactions?.length
-          ? props.transactions.map(playload => (
-              <TransactionCell key={playload.id} playload={playload} />
-            ))
-          : ''}
+        {props.Transactions && props.Transactions.length > 0 ? (
+          props.Transactions.map(payload => (
+            <TransactionCell key={payload.id} payload={payload} />
+          ))
+        ) : (
+          <p>No transactions available</p>
+        )}
       </Container>
     </>
   )
