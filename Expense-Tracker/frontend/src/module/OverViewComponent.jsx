@@ -142,10 +142,10 @@ const OverViewComponent = props => {
           />
         )}
         <ExpenseConatiner>
-          <ExpenseBox isIncome={false}>
+          <ExpenseBox>
             Expense<span>$1000</span>
           </ExpenseBox>
-          <ExpenseBox isIncome={true}>
+          <ExpenseBox>
             Income<span>$10000</span>
           </ExpenseBox>
         </ExpenseConatiner>
