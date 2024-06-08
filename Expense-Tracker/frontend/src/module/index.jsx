@@ -11,7 +11,6 @@ const Container = styled.div`
   margin: 30px 0 10px;
   width: 360px;
 `
-
 const HomeComponent = () => {
   const [transactions, updateTransaction] = useState([])
   const csrftoken = Token('csrftoken')
@@ -63,11 +62,6 @@ const HomeComponent = () => {
       console.error('Error posting transaction:', error)
     }
   }
-
-  // const transactionArray = [...transactions]
-  // transactionArray.push(payload)
-  // updateTransaction(transactionArray)
-
   return (
     <>
       <Container>
