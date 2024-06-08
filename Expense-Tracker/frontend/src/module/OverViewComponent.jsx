@@ -57,7 +57,7 @@ const AddTransitionView = props => {
   const addTransation = () => {
     console.log(amount, desc, type)
     props.toggle()
-    props.addTransation({ amount: Number(amount), desc, type, id: Date.now() })
+    props.addTransation({ amount: Number(amount), desc, type })
   }
   return (
     <AddTransationContainer>

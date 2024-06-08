@@ -42,7 +42,6 @@ const TransactionCell = props => {
   )
 }
 const TransactionComponent = props => {
-  console.log(props.Transactions)
   return (
     <>
       <Container>
