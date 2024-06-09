@@ -89,7 +89,11 @@ const HomeComponent = () => {
     <>
       <Container>
         <OverViewComponent addTransation={postTransaction} amount={amount} />
-        <TransactionComponent Transactions={transactions} />
+        <TransactionComponent
+          Transactions={transactions}
+          fetchTransaction={fetchTransactions}
+          fetchamount={fetchAmount}
+        />
       </Container>
     </>
   )

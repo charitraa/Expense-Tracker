@@ -109,6 +109,22 @@ const IncomeBox = styled.div`
     font-size: 20px;
   }
 `
+const TraContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  width: 100%;
+`
+const BtnContainer = styled.div`
+  display: flex;
+  align-items: center;
+  border: 1px solid #e6e8e9;
+  cursor: pointer;
+  background-color: #ca0202;
+  color: white;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
+`
 
 export {
   Container,
@@ -119,5 +135,7 @@ export {
   BalanceBox,
   ExpenseBox,
   IncomeBox,
-  ExpenseConatiner
+  ExpenseConatiner,
+  TraContainer,
+  BtnContainer
 }
