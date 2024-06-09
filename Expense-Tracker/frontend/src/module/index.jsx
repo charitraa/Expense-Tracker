@@ -4,6 +4,7 @@ import TransactionComponent from './TransactionComponent'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Token from './Token'
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -11,26 +12,46 @@ const Container = styled.div`
   margin: 30px 0 10px;
   width: 360px;
 `
+
 const HomeComponent = () => {
   const [transactions, updateTransaction] = useState([])
+  const [amount, setAmount] = useState({
+    total_income: 0,
+    total_expense: 0,
+    current_amount: 0
+  })
+
   const csrftoken = Token('csrftoken')
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const response = await axios.get(
-          'http://127.0.0.1:8000/transation-list/'
-        )
-        if (response.status !== 200) {
-          console.log('slight server error')
-        }
-        const data = await response.data
-        updateTransaction(data)
-      } catch (error) {
-        console.error('Error fetching transactions:', error)
+  const fetchTransactions = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/transation-list/')
+      if (response.status !== 200) {
+        console.log('Slight server error')
       }
+      const data = await response.data
+      updateTransaction(data)
+    } catch (error) {
+      console.error('Error fetching transactions:', error)
     }
+  }
+
+  const fetchAmount = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/amount/')
+      if (response.status !== 200) {
+        console.log('Slight server error')
+      }
+      const data = response.data
+      setAmount(data)
+    } catch (error) {
+      console.error('Error fetching amount:', error)
+    }
+  }
+
+  useEffect(() => {
     fetchTransactions()
+    fetchAmount()
   }, [])
 
   const postTransaction = async props => {
@@ -53,10 +74,12 @@ const HomeComponent = () => {
         },
         body: JSON.stringify(reqBody)
       })
-      updateTransaction([...transactions, reqBody])
       if (!response.ok) {
         throw new Error('Network response was not ok')
       }
+      // Fetch updated transactions and amounts after posting the transaction
+      await fetchTransactions()
+      await fetchAmount()
     } catch (error) {
       console.error('Error posting transaction:', error)
     }
@@ -65,7 +88,7 @@ const HomeComponent = () => {
   return (
     <>
       <Container>
-        <OverViewComponent addTransation={postTransaction} />
+        <OverViewComponent addTransation={postTransaction} amount={amount} />
         <TransactionComponent Transactions={transactions} />
       </Container>
     </>

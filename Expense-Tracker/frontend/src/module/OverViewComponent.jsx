@@ -24,7 +24,6 @@ const AddTransitionView = props => {
   const [desc, setDesc] = useState()
   const [type, setType] = useState()
   const addTransation = () => {
-    console.log(amount, desc, type)
     props.toggle()
     props.addTransation({ amount: Number(amount), desc, type })
   }
@@ -75,60 +74,19 @@ const OverViewComponent = props => {
   const [expense, setexpense] = useState(null)
 
   useEffect(() => {
-    const fetchcurrent = async () => {
-      try {
-        const response = await axios.get(
-          'http://127.0.0.1:8000/current-amount/'
-        )
-        if (response.status !== 200) {
-          console.log('slight server error')
-        }
-        const data = response.data
-        setCurrent(data)
-      } catch (error) {
-        console.error('Error fetching transactions:', error)
-      }
+    if (props.amount) {
+      setCurrent(props.amount.current_amount)
+      setincome(props.amount.total_income)
+      setexpense(props.amount.total_expense)
     }
-    fetchcurrent()
-  }, [])
-  useEffect(() => {
-    const fetchincome = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/total-income/')
-        if (response.status !== 200) {
-          console.log('slight server error')
-        }
-        const data = response.data
-        setincome(data)
-      } catch (error) {
-        console.error('Error fetching transactions:', error)
-      }
-    }
-    fetchincome()
-  }, [])
-
-  useEffect(() => {
-    const fetchexpense = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/total-expense/')
-        if (response.status !== 200) {
-          console.log('slight server error')
-        }
-        const data = response.data
-        setexpense(data)
-      } catch (error) {
-        console.error('Error fetching transactions:', error)
-      }
-    }
-    fetchexpense()
-  }, [])
+  }, [props.amount])
 
   const [isAddTxnVisible, toggleAddTxn] = useState(false)
   return (
     <>
       <Container>
         <BalanceBox>
-          Balance: Rs. {current ? current.current_amount : 'Loading...'}
+          Balance: Rs. {current}
           <AddTransation onClick={() => toggleAddTxn(!isAddTxnVisible)}>
             {isAddTxnVisible ? 'Cancel' : 'Add'}
           </AddTransation>
@@ -143,10 +101,10 @@ const OverViewComponent = props => {
         <ExpenseConatiner>
           <ExpenseBox>
             Expense
-            <span>Rs. {expense ? expense.total_expense : 'Loading...'}</span>
+            <span>Rs. {expense}</span>
           </ExpenseBox>
           <IncomeBox>
-            Income<span>Rs. {income ? income.total_income : 'Loading...'}</span>
+            Income<span>Rs. {income}</span>
           </IncomeBox>
         </ExpenseConatiner>
       </Container>
