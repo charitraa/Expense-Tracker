@@ -42,6 +42,7 @@ const HomeComponent = () => {
       if (response.status !== 200) {
         console.log('Slight server error')
       }
+
       const data = response.data
       setAmount(data)
     } catch (error) {
