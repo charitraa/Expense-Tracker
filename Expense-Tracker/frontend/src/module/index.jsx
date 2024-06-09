@@ -15,53 +15,53 @@ const HomeComponent = () => {
   const [transactions, updateTransaction] = useState([])
   const csrftoken = Token('csrftoken')
 
-  const list_transactions = () => {
-    useEffect(() => {
-      const fetchTransactions = async () => {
-        try {
-          const response = await axios.get(
-            'http://127.0.0.1:8000/transation-list/'
-          )
-          if (response.status !== 200) {
-            console.log('slight server error')
-          }
-          const data = response.data
-          updateTransaction(data)
-        } catch (error) {
-          console.error('Error fetching transactions:', error)
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await axios.get(
+          'http://127.0.0.1:8000/transation-list/'
+        )
+        if (response.status !== 200) {
+          console.log('slight server error')
         }
+        const data = await response.data
+        updateTransaction(data)
+      } catch (error) {
+        console.error('Error fetching transactions:', error)
       }
-      fetchTransactions()
-    }, [])
-  }
-  list_transactions()
+    }
+    fetchTransactions()
+  }, [])
 
   const postTransaction = async props => {
     const url = 'http://127.0.0.1:8000/transation-create/'
     const amount = props.amount
     const description = props.desc
     const type = props.type
-    console.log(amount, description, type)
     try {
-      const response = await axios.post(url, {
+      const reqBody = {
+        name: description,
+        amount: amount,
+        type: type
+      }
+
+      const response = await fetch(url, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': csrftoken
         },
-        body: JSON.stringify({
-          name: description,
-          amount: amount,
-          type: type
-        })
+        body: JSON.stringify(reqBody)
       })
+      updateTransaction([...transactions, reqBody])
       if (!response.ok) {
         throw new Error('Network response was not ok')
       }
-      list_transactions()
     } catch (error) {
       console.error('Error posting transaction:', error)
     }
   }
+
   return (
     <>
       <Container>
