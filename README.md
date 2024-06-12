@@ -9,6 +9,10 @@ An expense tracker application built with React for the frontend and Django REST
 - View expense summary and reports
 
 ## Setup Instructions
+Navigate to the main directory:
+    ```sh
+    cd Expense Tracker
+    ```
 
 ### Backend (Django REST Framework)
 
