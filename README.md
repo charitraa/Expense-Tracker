@@ -9,9 +9,10 @@ An expense tracker application built with React for the frontend and Django REST
 - View expense summary and reports
 
 ## Setup Instructions
-  Navigate to the main directory:
+  First of all clone the Repo and go to main directory
     ```
-    cd Expense Tracker
+    git clone https://github.com/charitraa/Expense-Tracker
+    cd Expense-Tracker
     ```
 
 ### Backend (Django REST Framework)
