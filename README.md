@@ -58,5 +58,5 @@ An expense tracker application built with React for the frontend and Django REST
 
 ## Author
 
-- **Name**: Your Name
-- **GitHub**: [Your GitHub Profile](https://github.com/your-username)
+- **Name**: Charitra Shrestha
+- **GitHub**: [Charitraa](https://github.com/charitraa)
