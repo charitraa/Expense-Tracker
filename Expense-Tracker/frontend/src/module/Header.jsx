@@ -16,7 +16,7 @@ function Header () {
   return (
     <>
       <Container>
-        <Headers>Expense Tracker</Headers>
+        <Headers>Expense Tracker Logout</Headers>
         <HomeComponent />
       </Container>
     </>
