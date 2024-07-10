@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { login } from './auth'; // Importing login function from auth.js
-import { FaEye, FaRegEyeSlash } from 'react-icons/fa'; // Importing eye icons for password visibility
+import { login } from './auth';
+import { FaEye, FaRegEyeSlash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Validation schema using zod
+
 const schema = z.object({
   email: z.string().min(5, 'Email must be at least 5 characters long').email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters long')

@@ -3,7 +3,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { NavLink } from 'react-router-dom';
-import { register as registerUser } from './auth'; // Importing register function from auth.js
+import { register as registerUser } from './auth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Validation schema using zod
 const schema = z.object({
@@ -24,8 +26,8 @@ const Register = () => {
   const handleRegister = async (data) => {
     try {
       console.log('Registration data:', data);
-      await registerUser(data.email, data.username, data.password); // Calling register function from auth.js
-      // Redirect to login page or do something on successful registration
+      toast.success('Login Successful');
+      await registerUser(data.email, data.username, data.password , data.repassword);
     } catch (error) {
       console.error('Registration failed', error);
     }
@@ -68,6 +70,16 @@ const Register = () => {
           />
           {errors.password && <em className="text-red-500 text-sm">{errors.password.message}</em>}
         </div>
+        <div className="mb-4">
+          <input 
+            type="password" 
+            {...register('password')} 
+            placeholder="repassword" 
+            required 
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          {errors.password && <em className="text-red-500 text-sm">{errors.password.message}</em>}
+        </div>
         
         <button 
           type="submit" 
@@ -79,6 +91,17 @@ const Register = () => {
         <NavLink to='/' className="mt-4">
         <button className="p-2 bg-green-500 text-white rounded hover:bg-green-600">Login</button>
       </NavLink>
+       <ToastContainer 
+        position="top-right" 
+        autoClose={5000} 
+        hideProgressBar={false} 
+        newestOnTop={false} 
+        closeOnClick 
+        rtl={false} 
+        pauseOnFocusLoss 
+        draggable 
+        pauseOnHover 
+      />
 
     </div>
   );

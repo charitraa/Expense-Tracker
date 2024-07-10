@@ -1,9 +1,14 @@
 import axiosInstance from './axios';
 
 export const register = async (email, username, password) => {
-    const response = await axiosInstance.post('/auth/users/', { email, username, password });
+  try {
+    const response = await axiosInstance.post('/auth/users/', { email, username, password, repassword });
     return response.data;
-};
+  } catch (error) {
+    console.error("Registration failed:", error.response.data);
+    throw error;
+  }
+}
 
 export const login = async (email, password) => {
     const response = await axiosInstance.post('/auth/jwt/create/', { email, password });
