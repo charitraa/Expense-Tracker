@@ -77,8 +77,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Expense Tracker.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -134,10 +132,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'Backend.User'
+
 CORS_ALLOWED_ORIGINS = [
   "http://localhost:5173",
   "http://127.0.0.1:3000",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ## REST framework default permission
 REST_FRAMEWORK = {
@@ -157,7 +159,11 @@ DJOSER = {
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
     'SEND_CONFIRMATION_EMAIL': True,
-    'SERIALIZERS': {},
+    'SERIALIZERS': {
+        'user_create': 'Backend.serializers.UserCreateSerializer',
+        'user': 'Backend.serializers.UserSerializer',
+        'current_user': 'Backend.serializers.UserSerializer',
+    },
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
