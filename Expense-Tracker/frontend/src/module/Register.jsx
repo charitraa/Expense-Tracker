@@ -2,7 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { register } from './auth'; // Importing register function from auth.js
+import { NavLink } from 'react-router-dom';
+import { register as registerUser } from './auth'; // Importing register function from auth.js
 
 // Validation schema using zod
 const schema = z.object({
@@ -22,9 +23,8 @@ const Register = () => {
 
   const handleRegister = async (data) => {
     try {
-      // Replace with your registration logic
       console.log('Registration data:', data);
-      await register(data.email, data.username, data.password); // Calling register function from auth.js
+      await registerUser(data.email, data.username, data.password); // Calling register function from auth.js
       // Redirect to login page or do something on successful registration
     } catch (error) {
       console.error('Registration failed', error);
@@ -32,18 +32,55 @@ const Register = () => {
   };
 
   return (
-    <>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit(handleRegister)}>
-        <input type="email" {...register('email')} placeholder="Email" required />
-        {errors.email && <em>{errors.email.message}</em>}
-        <input type="text" {...register('username')} placeholder="Username" required />
-        {errors.username && <em>{errors.username.message}</em>}
-        <input type="password" {...register('password')} placeholder="Password" required />
-        {errors.password && <em>{errors.password.message}</em>}
-        <button type="submit">Register</button>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <h2 className="text-2xl font-bold mb-6">Register</h2>
+      
+      <form onSubmit={handleSubmit(handleRegister)} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+        <div className="mb-4">
+          <input 
+            type="email" 
+            {...register('email')} 
+            placeholder="Email" 
+            required 
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          {errors.email && <em className="text-red-500 text-sm">{errors.email.message}</em>}
+        </div>
+        
+        <div className="mb-4">
+          <input 
+            type="text" 
+            {...register('username')} 
+            placeholder="Username" 
+            required 
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          {errors.username && <em className="text-red-500 text-sm">{errors.username.message}</em>}
+        </div>
+        
+        <div className="mb-4">
+          <input 
+            type="password" 
+            {...register('password')} 
+            placeholder="Password" 
+            required 
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          {errors.password && <em className="text-red-500 text-sm">{errors.password.message}</em>}
+        </div>
+        
+        <button 
+          type="submit" 
+          className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Register
+        </button>
       </form>
-    </>
+        <NavLink to='/' className="mt-4">
+        <button className="p-2 bg-green-500 text-white rounded hover:bg-green-600">Login</button>
+      </NavLink>
+
+    </div>
   );
 };
 

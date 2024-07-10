@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { login } from './auth'; // Importing login function from auth.js
 import { FaEye, FaRegEyeSlash } from 'react-icons/fa'; // Importing eye icons for password visibility
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Validation schema using zod
 const schema = z.object({
@@ -26,46 +28,79 @@ const Login = () => {
 
   const handleLogin = async (data) => {
     try {
-      // Replace with your login logic
       console.log('Login data:', data);
       await login(data.email, data.password); // Calling login function from auth.js
-      // Redirect to app or do something on successful login
+      toast.success('Login Successful');
       navigate('/app');
     } catch (error) {
       console.error('Login failed', error);
+      toast.error('Login Failed');
     }
   };
 
   return (
-    <>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit(handleLogin)}>
-        <input type="email" {...register('email')} placeholder="Email" required />
-        {errors.email && <em>{errors.email.message}</em>}
-        <div className='pw'>
-          <label htmlFor='password'>Password</label>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <h2 className="text-2xl font-bold mb-6">Login</h2>
+      
+      <form onSubmit={handleSubmit(handleLogin)} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+        <div className="mb-4">
+          <input 
+            type="email" 
+            {...register('email')} 
+            placeholder="Email" 
+            required 
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          {errors.email && <em className="text-red-500 text-sm">{errors.email.message}</em>}
+        </div>
+        
+        <div className="mb-4 relative">
+          <label htmlFor='password' className="block text-gray-700">Password</label>
           <input
             type={showPassword ? 'text' : 'password'}
             {...register('password')}
             id='password'
             placeholder='Enter your password'
+            className="w-full p-2 border border-gray-300 rounded"
           />
           {showPassword ? (
-            <FaEye className='i-eyed' onClick={() => setShowPassword(!showPassword)} />
+            <FaEye 
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+              onClick={() => setShowPassword(!showPassword)} 
+            />
           ) : (
             <FaRegEyeSlash
               onClick={() => setShowPassword(!showPassword)}
-              className='i-eyed'
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
             />
           )}
-          {errors.password && <em>{errors.password.message}</em>}
+          {errors.password && <em className="text-red-500 text-sm">{errors.password.message}</em>}
         </div>
-        <button type="submit">Login</button>
+        
+        <button 
+          type="submit" 
+          className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Login
+        </button>
       </form>
-      <NavLink to='/register'>
-        <button>Register</button>
+
+      <NavLink to='/register' className="mt-4">
+        <button className="p-2 bg-green-500 text-white rounded hover:bg-green-600">Register</button>
       </NavLink>
-    </>
+
+      <ToastContainer 
+        position="top-right" 
+        autoClose={5000} 
+        hideProgressBar={false} 
+        newestOnTop={false} 
+        closeOnClick 
+        rtl={false} 
+        pauseOnFocusLoss 
+        draggable 
+        pauseOnHover 
+      />
+    </div>
   );
 };
 
