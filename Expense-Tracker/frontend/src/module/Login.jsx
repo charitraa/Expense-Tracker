@@ -44,6 +44,7 @@ const Login = () => {
       
       <form onSubmit={handleSubmit(handleLogin)} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
         <div className="mb-4">
+          <label htmlFor='email' className="block text-gray-700">Email</label>
           <input 
             type="email" 
             {...register('email')} 
