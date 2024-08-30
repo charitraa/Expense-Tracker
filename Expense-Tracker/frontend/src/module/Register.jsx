@@ -25,9 +25,8 @@ const Register = () => {
 
   const handleRegister = async (data) => {
     try {
-      console.log('Registration data:', data);
-      toast.success('Login Successful');
-      await registerUser(data.email, data.username, data.password , data.repassword);
+      await registerUser(data.email, data.username, data.password, data.repassword);
+      toast.success('Registration Successful');
     } catch (error) {
       console.error('Registration failed', error);
     }
@@ -36,75 +35,75 @@ const Register = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <h2 className="text-2xl font-bold mb-6">Register</h2>
-      
+
       <form onSubmit={handleSubmit(handleRegister)} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
         <div className="mb-4">
           <label htmlFor='email' className="block text-gray-700">Email</label>
-          <input 
-            type="email" 
-            {...register('email')} 
-            placeholder="Email" 
-            required 
+          <input
+            type="email"
+            {...register('email')}
+            placeholder="Email"
+            required
             className="w-full p-2 border border-gray-300 rounded"
           />
           {errors.email && <em className="text-red-500 text-sm">{errors.email.message}</em>}
         </div>
-        
+
         <div className="mb-4">
           <label htmlFor='username' className="block text-gray-700">Username</label>
-          <input 
-            type="text" 
-            {...register('username')} 
-            placeholder="Username" 
-            required 
+          <input
+            type="text"
+            {...register('username')}
+            placeholder="Username"
+            required
             className="w-full p-2 border border-gray-300 rounded"
           />
           {errors.username && <em className="text-red-500 text-sm">{errors.username.message}</em>}
         </div>
-        
+
         <div className="mb-4">
           <label htmlFor='password' className="block text-gray-700">Password</label>
-          <input 
-            type="password" 
-            {...register('password')} 
-            placeholder="Password" 
-            required 
+          <input
+            type="password"
+            {...register('password')}
+            placeholder="Password"
+            required
             className="w-full p-2 border border-gray-300 rounded"
           />
           {errors.password && <em className="text-red-500 text-sm">{errors.password.message}</em>}
         </div>
         <div className="mb-4">
           <label htmlFor='repassword' className="block text-gray-700">Repassword</label>
-          <input 
-            type="password" 
-            {...register('password')} 
-            placeholder="repassword" 
-            required 
+          <input
+            type="password"
+            {...register('repassword')}
+            placeholder="repassword"
+            required
             className="w-full p-2 border border-gray-300 rounded"
           />
           {errors.password && <em className="text-red-500 text-sm">{errors.password.message}</em>}
         </div>
-        
-        <button 
-          type="submit" 
+
+        <button
+          type="submit"
           className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Register
         </button>
       </form>
-        <NavLink to='/' className="mt-4">
+      <NavLink to='/' className="mt-4">
         <button className="p-2 bg-green-500 text-white rounded hover:bg-green-600">Login</button>
       </NavLink>
-       <ToastContainer 
-        position="top-right" 
-        autoClose={5000} 
-        hideProgressBar={false} 
-        newestOnTop={false} 
-        closeOnClick 
-        rtl={false} 
-        pauseOnFocusLoss 
-        draggable 
-        pauseOnHover 
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
       />
 
     </div>

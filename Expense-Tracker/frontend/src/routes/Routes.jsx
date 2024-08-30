@@ -10,9 +10,9 @@ export default function RoutesNav() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/app" element={<PrivateRoute />}>
-        <Route path="/app" element={<Header />} />
-      </Route>
+      {/* <Route path="/app" element={<PrivateRoute />}> */}
+      <Route path="/app" element={<Header />} />
+      {/* </Route> */}
     </Routes>
   );
 }
